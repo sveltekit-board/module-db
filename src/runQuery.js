@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.querySync = void 0;
-const mysql_1 = __importDefault(require("mysql"));
+exports.runQuery = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
+const mysql_1 = __importDefault(require("mysql"));
 dotenv_1.default.config();
 const option = {
     host: process.env.DB_HOST,
@@ -22,47 +22,13 @@ const option = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE
 };
-let db = mysql_1.default.createConnection(option);
-db.connect((err) => {
-    if (err) {
-        console.log(err);
-        setTimeout(handleDisconnection, 2000); //2초 뒤 재연결
-    }
-});
-db.on('error', (err) => {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-        console.log(err);
-        handleDisconnection();
-    }
-    else {
-        throw (err);
-    }
-});
-function handleDisconnection() {
-    db = mysql_1.default.createConnection(option);
-    db.connect((err) => {
-        if (err) {
-            console.log(err);
-            setTimeout(handleDisconnection, 2000); //2초 뒤 재연결
-        }
-    });
-    db.on('error', (err) => {
-        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-            console.log(err);
-            handleDisconnection();
-        }
-        else {
-            throw (err);
-        }
-    });
-}
-exports.default = db;
-function querySync(query, values) {
+function runQuery(callback) {
     return __awaiter(this, void 0, void 0, function* () {
-        let result;
-        try {
+        const db = mysql_1.default.createConnection(option);
+        db.connect();
+        let queryFunction = (query, values) => {
             if (values) {
-                result = yield new Promise((res, rej) => {
+                return new Promise((res, rej) => {
                     db.query(query, values, (err, row) => {
                         if (err) {
                             rej(err);
@@ -74,7 +40,7 @@ function querySync(query, values) {
                 });
             }
             else {
-                result = yield new Promise((res, rej) => {
+                return new Promise((res, rej) => {
                     db.query(query, (err, row) => {
                         if (err) {
                             rej(err);
@@ -85,11 +51,10 @@ function querySync(query, values) {
                     });
                 });
             }
-        }
-        catch (err) {
-            throw err;
-        }
+        };
+        let result = yield callback(queryFunction);
+        db.end();
         return result;
     });
 }
-exports.querySync = querySync;
+exports.runQuery = runQuery;
