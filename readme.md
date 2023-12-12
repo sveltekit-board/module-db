@@ -7,6 +7,33 @@
 
 ### ************
 
+### 연결 정보
+
+해당 모듈은 dotenv 사용을 전제로 합니다.
+따라서 .env 파일을 생성해야합니다.
+
+4개의 값이 필요합니다.
+
+```env
+DB_HOST
+DB_USER
+DB_PASSWORD
+DB_DATABASE
+```
+
+```
+DB_HOST: mysql 주소
+```
+```
+DB_USER: mysql 유저
+```
+```
+DB_PASSWORD: mysql 비밀번호
+```
+```
+DB_DATABASE: mysql 데이터베이스
+```
+
 ### db
 
 연결된 `mysql.Connection` 입니다.
