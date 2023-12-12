@@ -67,8 +67,6 @@ querySync 함수와 다르게 이 함수는 db connection을 생성하고, 마�
 사용법의 예를 들어보겠습니다.
 name이 철수인 행의 age 값과 name이 영희인 행의 age 값을 가져와 출력하고, 둘을 비교하고 누구의 나이가 더 많은 지 출력해봅시다.
 ```ts
-import { runQuery } from "@sveltekit-board/db";
-
 let who = await runQuery(async (run) => {
     let age1 = await run("SELECT `age` FROM `humans` WHERE `name` = ?", ['철수']);
     console.log(age1);//10
