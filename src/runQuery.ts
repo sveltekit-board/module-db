@@ -14,10 +14,10 @@ export async function runQuery(callback:QueryCallback){
     const db = mysql.createConnection(option);
     db.connect();
 
-    let queryFunction:QueryFunction = (query:string, params?:any[]) =>{
-        if(params){
+    let queryFunction:QueryFunction = (query:string, values?:any[]) =>{
+        if(values){
             return new Promise((res, rej) => {
-                db.query(query, params, (err, row) => {
+                db.query(query, values, (err, row) => {
                     if(err){
                         rej(err);
                     }
@@ -48,4 +48,4 @@ export async function runQuery(callback:QueryCallback){
 
 type QueryCallback = (queryFunction:QueryFunction) => Promise<any>;
 
-type QueryFunction = ((query:string) => Promise<any>)|((query:string, params?:any[]) => Promise<any>);
+type QueryFunction = ((query:string) => Promise<any>)|((query:string, values?:any[]) => Promise<any>);

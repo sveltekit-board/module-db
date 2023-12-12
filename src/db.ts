@@ -49,12 +49,12 @@ function handleDisconnection(){
 
 export default db;
 
-export async function querySync(query:string, params?:any[]){
+export async function querySync(query:string, values?:any[]){
     let result:any[];
     try{
-        if(params){
+        if(values){
             result = await new Promise((res, rej) => {
-                db.query(query, params, (err, row) => {
+                db.query(query, values, (err, row) => {
                     if(err){
                         rej(err);
                     }
