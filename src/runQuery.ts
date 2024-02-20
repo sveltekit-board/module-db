@@ -41,9 +41,25 @@ export async function runQuery(callback:QueryCallback){
         }
     }
 
-    let result = await callback(queryFunction);
-    db.end();
-    return result;
+    let result;
+    let hasError:boolean = false;
+    try{
+        result = await callback(queryFunction);
+    }
+    catch(err){
+        result = err;
+        hasError = true;
+    }
+    finally{
+        db.end();
+    }
+    
+    if(hasError){
+        throw result;
+    }
+    else{
+        return result;
+    }
 }
 
 type QueryCallback = (queryFunction:QueryFunction) => Promise<any>;
