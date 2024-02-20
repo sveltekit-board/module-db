@@ -52,9 +52,24 @@ function runQuery(callback) {
                 });
             }
         };
-        let result = yield callback(queryFunction);
-        db.end();
-        return result;
+        let result;
+        let hasError = false;
+        try {
+            result = yield callback(queryFunction);
+        }
+        catch (err) {
+            result = err;
+            hasError = true;
+        }
+        finally {
+            db.end();
+        }
+        if (hasError) {
+            throw result;
+        }
+        else {
+            return result;
+        }
     });
 }
 exports.runQuery = runQuery;
