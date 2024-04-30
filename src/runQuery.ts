@@ -51,7 +51,7 @@ export async function runQuery(callback:QueryCallback){
         hasError = true;
     }
     finally{
-        db.end();
+        db.destroy();
     }
     
     if(hasError){
