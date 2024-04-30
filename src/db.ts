@@ -1,4 +1,4 @@
-import mysql from 'mysql';
+import mysql from 'mysql2';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -50,7 +50,7 @@ function handleDisconnection(){
 export default db;
 
 export async function querySync(query:string, values?:any[]){
-    let result:any[];
+    let result:any;
     try{
         if(values){
             result = await new Promise((res, rej) => {
