@@ -62,7 +62,7 @@ function runQuery(callback) {
             hasError = true;
         }
         finally {
-            db.end();
+            db.destroy();
         }
         if (hasError) {
             throw result;
