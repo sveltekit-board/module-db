@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDB = void 0;
-const mysql_1 = __importDefault(require("mysql"));
+const mysql2_1 = __importDefault(require("mysql2"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const option = {
@@ -14,7 +14,7 @@ const option = {
     database: process.env.DB_DATABASE
 };
 function getDB() {
-    const db = mysql_1.default.createConnection(option);
+    const db = mysql2_1.default.createConnection(option);
     db.connect();
     return db;
 }
