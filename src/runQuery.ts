@@ -126,6 +126,6 @@ if(database === "postgre"){
 
 export {runQuery};
 
-type QueryCallback = (queryFunction: QueryFunction) => Promise<any>;
+export type QueryCallback = (queryFunction: QueryFunction) => Promise<any>;
 
-type QueryFunction = ((query: string) => Promise<any>) | ((query: string, values?: any[]) => Promise<any>);
+export type QueryFunction = ((query: string) => Promise<any>) | ((query: string, values?: any[]) => Promise<any>);
