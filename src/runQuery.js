@@ -24,7 +24,8 @@ const option = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    port: process.env.DB_PORT !== undefined ? Number(process.env.DB_PORT) : database === "mysql" ? 3306 : 5432
+    port: process.env.DB_PORT !== undefined ? Number(process.env.DB_PORT) : database === "mysql" ? 3306 : 5432,
+    timezone: process.env.DB_TIMEZONE
 };
 let runQuery;
 if (database === "mysql") {
